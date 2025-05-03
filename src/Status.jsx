@@ -22,7 +22,7 @@ const Status = () => {
         <div className="absolute top-4 right-4 text-white text-sm font-semibold">
           {isSomeoneOnline && (
             <div className="animate-pulse bg-pink-500 px-4 py-2 rounded-full shadow-lg">
-              💖 She’s here right now...
+              💖 He's Waiting For You, In His Home, But For You To Respond....
             </div>
           )}
         </div>
