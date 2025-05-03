@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getDatabase } from "firebase/database";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
