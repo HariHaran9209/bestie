@@ -4,10 +4,12 @@ import { motion } from 'framer-motion'
 import './App.css'
 
 const App = () => {
-  const [showMessage, setShowMessage] = useState(false)
-  const [showPromiseBox, setShowPromiseBox] = useState(false)
-  const [typedText, setTypedText] = useState("")
-  const [index, setIndex] = useState(0)
+  const [ showMessage, setShowMessage ] = useState(false)
+  const [ showPromiseBox, setShowPromiseBox ] = useState(false)
+  const [ typedText, setTypedText ] = useState("")
+  const [ index, setIndex ] = useState(0)
+  const [ typingSpeed, setTypingSpeed ] = useState(25)
+  const [ showFullMessage, setShowFullMessage ] = useState(false)
   const messageRef = useRef(null)
 
   const [promises, setPromises] = useState({
@@ -15,19 +17,32 @@ const App = () => {
     stayInTouch: false,
     beHonest: false,
     forgiveMe: false,
+    tellMe: false,
   });
 
-  const message = `First of all, I'm really, honestly, completely, truly sorry... ...[shortened for clarity]`;
+  const message = `First of all, i'm really, honestly, completely, truly sorry..... I know idhellam en thappu dhaan.... Naan romba over-a ponaen just because I wanted to be your best friend. Nee enna enna vena nenachuko—greedy, jealous, egoistic—but the truth is, i was scared, i was just scared that I’ll be replaced… that I don’t matter to you like how much you matter to me.
 
-  useEffect(() => {
-    if (showMessage && index < message.length) {
-      const timeout = setTimeout(() => {
-        setTypedText((prev) => prev + message[index]);
-        setIndex(index + 1);
-      }, 25);
-      return () => clearTimeout(timeout);
-    }
-  }, [showMessage, index]);
+Even after you told me that you're bestfriend is dharaniya and no one'd ever replace her, i never wanted her to be replaced, she's special for you, and i just wanted to be good enough, like, naanu unnoda oru bestfriend aa irrukanunu expect panne, but i was wrong, you know, oru person special la illayanu neetha decide pannanu, not me, i have no idea why the hell i told like that, that was just so childish and i'll try not to do that again.....  Best friendship mathiri feelings varanum nu solli vara kodathu, adhu natural-a nadakkanum. Forcing is not friendship, and I’m sorry for that. Naan deserve pannala nu naan purinjutaen. 
+
+And second, naan un mela control panna try pannaen nu nee feel pannuna, I’m truly sorry. Honestly, i never wanted to control you, never, did i ever told you to stop texting with any boys. Tamim matter-la I agree, but even then, naan un safety-ku dhaan sonna, not to control you. But still, adhu wrong-a thaan pochu. Unakku oru naal hurt aagidumo nu than naan yosichaen. Aana naan ippo purinjutaen, nee un life-a nee decide pannalaam. I trust you, and I’ll never do anything like that again.
+
+And third, naan un kitta chinna chinna things force panna try pannaen, like ‘bro’ ku badhila ‘da’ nu solla sonnaen. That was immature. Every time nee bro nu sonna, I felt like something was breaking between us. Aana adhu en imagination dhaan. I should’ve respected your way of talking. I’m sorry for that too.
+
+I know naan neraiya thappu pannaen, but everything came from a place of caring and fear.....
+
+And You can take your time, I truly respect your decision to study instead of wasting your time on me, I'd do that too but, i just wanted things to normal between us again, that's it..... just old eniya sri and new hari haran.... I'm damn sure that you'll see the changes in me, so let's just be back, like the old times, you take the time you want, not to distance from me, but for your studies.....`;
+
+useEffect(() => {
+  if (showMessage && index < message.length && !showFullMessage) {
+    const timeout = setTimeout(() => {
+      setTypedText((prev) => prev + message[index]);
+      setIndex(index + 1);
+    }, typingSpeed);
+    return () => clearTimeout(timeout);
+  }
+}, [showMessage, index, typingSpeed, showFullMessage]);
+
+
 
   const handlePlay = () => {
     const audio = document.getElementById("bg-music");
@@ -81,6 +96,33 @@ const App = () => {
         >
           <div className="bg-white rounded-xl shadow-xl p-6 max-w-2xl w-full text-gray-800 overflow-y-auto max-h-[80vh] relative">
             <h2 className="text-xl font-semibold mb-4 text-center text-pink-600">This Is What I Want You To Know 💬</h2>
+            <div className="flex justify-center gap-4 mb-4">
+  {[{ label: '1x', speed: 25 }, { label: '1.5x', speed: 15 }, { label: '2x', speed: 8 }].map(({ label, speed }) => (
+    <button
+      key={label}
+      onClick={() => setTypingSpeed(speed)}
+      className={`px-3 py-1 rounded-full border ${
+        typingSpeed === speed
+          ? 'bg-pink-500 text-white border-pink-600'
+          : 'bg-white text-pink-600 border-pink-400 hover:bg-pink-100'
+      } transition-all duration-200 text-sm font-medium`}
+    >
+      {label}
+    </button>
+  ))}
+  <button
+    onClick={() => {
+      setShowFullMessage(true);
+      setTypedText(message);
+      setIndex(message.length);
+    }}
+    className="px-4 py-1 rounded-full bg-pink-600 text-white text-sm font-medium hover:bg-pink-700 transition-all"
+  >
+    Show Full Message
+  </button> 
+</div>
+
+
             <p className="whitespace-pre-line text-base leading-relaxed">{typedText}</p>
             {typedText.length === message.length && (
               <div className="text-center mt-6 text-pink-500 italic">
